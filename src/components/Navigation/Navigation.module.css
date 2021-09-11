@@ -1,0 +1,14 @@
+.navLink {
+  color: #000;
+  font-weight: 500;
+  font-style: 20px;
+  text-decoration: none;
+}
+
+.navLink:not(:last-child) {
+  margin-right: 15px;
+}
+
+.navActiveLink {
+  color: #5454e0;
+}
