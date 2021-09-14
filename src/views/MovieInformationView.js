@@ -16,8 +16,11 @@ function MovieInformationView () {
     const location = useLocation();
     const { movieId } = useParams();
     const [movie, setMovie] = useState(null);
+    const [pathToMovie, setPathToMovie] = useState(null);
 
-    console.log(location.state.from);
+    useEffect(() => {
+        setPathToMovie(location.state);
+    }, [location])
 
     useEffect(() => {
         moviesApi.fetchMovieById(movieId).then(setMovie)
@@ -31,7 +34,7 @@ function MovieInformationView () {
     };
 
     const onGoBack = () => {
-        history.push(location?.state?.from ?? '/');
+        history.push(pathToMovie ?? '/');
     };
 
     const year = getMovieYear();
@@ -44,7 +47,7 @@ function MovieInformationView () {
                 {movie && 
                     <div>
                         <img alt={movie.title} 
-                            src={`${IMG_URL}${movie.poster_path}`}
+                            src={movie.poster_path ? `${IMG_URL}${movie.poster_path}` : defaultPoster}
                         />
                         <h2>
                             <span>{movie.title}&emsp;</span>
@@ -65,11 +68,14 @@ function MovieInformationView () {
                             <li>
                                 <NavLink to={{
                                     pathname: `${url}/cast`,
-                                    state: {from: location.state.from}
+                                    state: pathToMovie
                                 }}>Cast</NavLink>
                             </li>
                             <li>
-                                <NavLink to={`${url}/reviews`}>Reviews</NavLink>
+                                <NavLink to={{
+                                    pathname: `${url}/reviews`,
+                                    state: pathToMovie
+                                }}>Reviews</NavLink>
                             </li>
                         </ul>
                     </div>

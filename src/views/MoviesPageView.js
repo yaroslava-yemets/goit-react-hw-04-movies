@@ -9,8 +9,6 @@ function MoviesPageView () {
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
 
-    console.log(url);
-
     useEffect(() => {
         if(!searchQuery) {
             return
@@ -27,23 +25,8 @@ function MoviesPageView () {
 
     const onSearchMovieFormSubmit = (e) => {
         e.preventDefault();
-        console.log('hi');
         setSearchQuery(query);
         setQuery('');
-    };
-
-    const autoScrollDown = () => {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        });
-    };
-
-    const autoScrollUp = () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
     };
 
     return (
@@ -53,23 +36,19 @@ function MoviesPageView () {
                 <button type="submit">Search</button>
             </form>
 
-            {searchQuery && 
-                <>
-                    <button type="button" onClick={autoScrollDown}>Down</button>
-                    <ul>
-                        {movies && 
-                            movies.map(movie => <li key={movie.id}>
-                                <Link to={{
-                                    pathname: `${url}/${movie.id}`,
-                                    state: {from: location},
-                                }}>
-                                    {movie.title ? movie.title : movie.name}
-                                </Link>
-                            </li>)
-                        }
-                    </ul>
-                    <button type="button" onClick={autoScrollUp}>Up</button>
-                </>
+            {searchQuery &&
+                <ul>
+                    {movies && 
+                        movies.map(movie => <li key={movie.id}>
+                            <Link to={{
+                                pathname: `${url}/${movie.id}`,
+                                state: {...location, search: searchQuery},
+                            }}>
+                                {movie.title ? movie.title : movie.name}
+                            </Link>
+                        </li>)
+                    }
+                </ul>
             }
         </>
     )

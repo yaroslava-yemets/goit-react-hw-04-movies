@@ -43,7 +43,7 @@ function HomePageView () {
                     movies.map(movie => <li key={movie.id}>
                         <Link to={{
                             pathname: `/movies/${movie.id}`,
-                            state: {from : location},
+                            state: {...location},
                         }}>
                             {movie.title ? movie.title : movie.name}
                         </Link>
