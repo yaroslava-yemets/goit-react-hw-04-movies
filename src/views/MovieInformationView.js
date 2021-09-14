@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { useParams, NavLink, useRouteMatch, Route, useHistory } from 'react-router-dom';
+import { useParams, NavLink, useRouteMatch, Route, useHistory, useLocation } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
+import defaultPoster from './default_poster.jpg';
 
 const IMG_URL = 'https://image.tmdb.org/t/p/w500/';
 
@@ -12,10 +13,11 @@ const Reviews = lazy(() => import('../components/Reviews'
 function MovieInformationView () {
     const { url } = useRouteMatch();
     const history = useHistory();
+    const location = useLocation();
     const { movieId } = useParams();
     const [movie, setMovie] = useState(null);
 
-    console.log(history.goBack);
+    console.log(location.state.from);
 
     useEffect(() => {
         moviesApi.fetchMovieById(movieId).then(setMovie)
@@ -28,18 +30,15 @@ function MovieInformationView () {
         }
     };
 
-    const goBack = () => {
-        // console.log(location);
-        // console.log(history.goBack.arguments);
-        history.goBack();
-
-    }
+    const onGoBack = () => {
+        history.push(location?.state?.from ?? '/');
+    };
 
     const year = getMovieYear();
 
         return (
             <>
-                <button type="button" onClick={goBack}>
+                <button type="button" onClick={onGoBack}>
                     &larr;&ensp;Go back
                 </button>
                 {movie && 
@@ -64,7 +63,10 @@ function MovieInformationView () {
                         <p>Additional information</p>
                         <ul>
                             <li>
-                                <NavLink to={`${url}/cast`}>Cast</NavLink>
+                                <NavLink to={{
+                                    pathname: `${url}/cast`,
+                                    state: {from: location.state.from}
+                                }}>Cast</NavLink>
                             </li>
                             <li>
                                 <NavLink to={`${url}/reviews`}>Reviews</NavLink>

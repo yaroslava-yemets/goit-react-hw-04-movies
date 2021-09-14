@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
 
 function HomePageView () {
+    const location = useLocation();
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
 
@@ -40,7 +41,10 @@ function HomePageView () {
             <ul>
                 {movies && 
                     movies.map(movie => <li key={movie.id}>
-                        <Link to={`/movies/${movie.id}`}>
+                        <Link to={{
+                            pathname: `/movies/${movie.id}`,
+                            state: {from : location},
+                        }}>
                             {movie.title ? movie.title : movie.name}
                         </Link>
                     </li>)

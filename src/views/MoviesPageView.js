@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
 
 function MoviesPageView () {
     const { url } = useRouteMatch();
+    const location = useLocation();
     const [query, setQuery] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
@@ -58,9 +59,12 @@ function MoviesPageView () {
                     <ul>
                         {movies && 
                             movies.map(movie => <li key={movie.id}>
-                                <NavLink to={`${url}/${movie.id}`}>
+                                <Link to={{
+                                    pathname: `${url}/${movie.id}`,
+                                    state: {from: location},
+                                }}>
                                     {movie.title ? movie.title : movie.name}
-                                </NavLink>
+                                </Link>
                             </li>)
                         }
                     </ul>
