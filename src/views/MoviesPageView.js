@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
 
 function MoviesPageView () {
@@ -8,10 +8,12 @@ function MoviesPageView () {
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
 
+    console.log(url);
+
     useEffect(() => {
         if(!searchQuery) {
             return
-        };
+        }; 
 
         moviesApi.fetchMoviesByQuery(searchQuery)
         .then(movies => setMovies(movies.results))
@@ -56,9 +58,9 @@ function MoviesPageView () {
                     <ul>
                         {movies && 
                             movies.map(movie => <li key={movie.id}>
-                                <Link to={`${url}/${movie.id}`}>
+                                <NavLink to={`${url}/${movie.id}`}>
                                     {movie.title ? movie.title : movie.name}
-                                </Link>
+                                </NavLink>
                             </li>)
                         }
                     </ul>

@@ -5,7 +5,7 @@ async function fetchMoviesApi (url='') {
     const response = await fetch(url);
     return response.ok 
         ? await response.json()
-        : Promise.reject(new Error('`There are no such movies`'));
+        : Promise.reject(new Error('There are no such movies'));
 };
 
 export function fetchTrendingMovies (page) {

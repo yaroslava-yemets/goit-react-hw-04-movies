@@ -11,20 +11,17 @@ function Reviews ({id}) {
         .catch(error => error.massage);
     }, [id]);
 
-    return (
-       <div>
-           <ul>
-            {reviews &&
-               reviews.map(review => (
+    return reviews.length !== 0 ?
+        (<ul>
+            {reviews.map(review => (
                 <li key={review.id}>
                     <h2>Author: {review.author}</h2>
                     <p>{review.content}</p>
                 </li>
-                ))     
-            }
-            </ul>
-       </div>
-    )
+            ))}   
+                
+        </ul>)
+        : (<div>Movie doesn't have reviews for now</div>);
 }
 
 Reviews.propTypes = {
