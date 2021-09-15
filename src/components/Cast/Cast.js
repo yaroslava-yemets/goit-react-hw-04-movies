@@ -31,7 +31,7 @@ function Cast ({id}) {
         });
     };
 
-    return (
+    return casts && 
         <>
             <button type="button" 
                 onClick={autoScrollDown} 
@@ -40,18 +40,16 @@ function Cast ({id}) {
                 Down
             </button>
             <ul className={s.list}>
-                {casts && 
-                    casts.map(cast => (
-                        <li key={cast.cast_id} className={s.listItem}>
-                            <img src={cast.profile_path ? `${IMG_URL}${cast.profile_path}` : defaultImg} 
-                                alt={cast.name}
-                                className={s.image}
-                            />
-                            <p>{cast.name}</p>
-                            <p>Character: {cast.character}</p>
-                        </li>
-                    ))
-                }
+                {casts.map(cast => (
+                    <li key={cast.cast_id} className={s.listItem}>
+                        <img src={cast.profile_path ? `${IMG_URL}${cast.profile_path}` : defaultImg} 
+                            alt={cast.name}
+                            className={s.image}
+                        />
+                        <p>{cast.name}</p>
+                        <p>Character: {cast.character}</p>
+                    </li>
+                ))}
             </ul>
             <button type="button" 
                 onClick={autoScrollUp} 
@@ -60,7 +58,6 @@ function Cast ({id}) {
                 Up
             </button>
         </>
-    )
 }
 
 Cast.propTypes = {
