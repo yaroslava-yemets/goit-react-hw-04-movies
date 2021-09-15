@@ -1,5 +1,6 @@
 .AppContainer {
   margin: 0 auto;
+  padding: 25px;
   width: 80vw;
   padding-bottom: 30px;
 }

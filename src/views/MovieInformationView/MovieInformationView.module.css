@@ -1,0 +1,10 @@
+.movieContainer {
+  padding: 20px;
+  display: flex;
+  background-color: rgba(245, 109, 109, 0.431);
+}
+
+.image {
+  width: 250px;
+  margin-right: 15px;
+}

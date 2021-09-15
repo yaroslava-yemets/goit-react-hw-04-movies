@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
+import buttonStyle from '../styles/Button.module.css';
 
 function HomePageView () {
     const location = useLocation();
@@ -36,7 +37,9 @@ function HomePageView () {
 
     return (
         <>
-            <button type="button" onClick={autoScrollDown}>Down</button>
+            <button type="button" onClick={autoScrollDown} className={buttonStyle.button}>
+                Down
+            </button>
             <h2>Trending today</h2>
             <ul>
                 {movies && 
@@ -50,9 +53,13 @@ function HomePageView () {
                     </li>)
                 }
             </ul>
-            <button type="button" onClick={onLoadMore}>Load more</button>
+            <button type="button" onClick={onLoadMore} className={buttonStyle.button}>
+                Load more
+            </button>
             <br/>
-            <button type="button" onClick={autoScrollUp}>Up</button>
+            <button type="button" onClick={autoScrollUp} className={buttonStyle.button}>
+                Up
+            </button>
         </>
     );
 }

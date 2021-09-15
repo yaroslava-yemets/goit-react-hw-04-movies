@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
+import useSearchQuery from '../hooks/useSearchQuery';
 
 function MoviesPageView () {
     const { url } = useRouteMatch();
     const location = useLocation();
     const [query, setQuery] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useSearchQuery(location.search);
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
         if(!searchQuery) {
             return
         }; 
-
         moviesApi.fetchMoviesByQuery(searchQuery)
         .then(movies => setMovies(movies.results))
         .catch(error => error.massage);
-    }, [searchQuery]);
+    }, [searchQuery, location]);
 
     const onInputChange = (e) => {
         setQuery(e.target.value);

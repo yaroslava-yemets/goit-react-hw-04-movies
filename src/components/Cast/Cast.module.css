@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.listItem {
+  width: calc(100% / 3);
+}
+
+.image {
+  width: 120px;
+}

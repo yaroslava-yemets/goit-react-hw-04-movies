@@ -1,13 +1,15 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { useParams, NavLink, useRouteMatch, Route, useHistory, useLocation } from 'react-router-dom';
-import * as moviesApi from '../services/moviesApi';
+import * as moviesApi from '../../services/moviesApi';
+import s from './MovieInformationView.module.css';
+import buttonStyle from '../../styles/Button.module.css'
 import defaultPoster from './default_poster.jpg';
 
 const IMG_URL = 'https://image.tmdb.org/t/p/w500/';
 
-const Cast = lazy(() => import('../components/Cast' 
+const Cast = lazy(() => import('../../components/Cast' 
   /* webpackChunkName: "cast-subview" */));
-const Reviews = lazy(() => import('../components/Reviews' 
+const Reviews = lazy(() => import('../../components/Reviews' 
   /* webpackChunkName: "reviews-subview" */));
 
 function MovieInformationView () {
@@ -41,27 +43,32 @@ function MovieInformationView () {
 
         return (
             <>
-                <button type="button" onClick={onGoBack}>
+                <button type="button" onClick={onGoBack} className={buttonStyle.button}>
                     &larr;&ensp;Go back
                 </button>
                 {movie && 
-                    <div>
-                        <img alt={movie.title} 
+                <>
+                    <div className={s.movieContainer}>
+                        <img alt={movie.title} className={s.image}
                             src={movie.poster_path ? `${IMG_URL}${movie.poster_path}` : defaultPoster}
                         />
-                        <h2>
-                            <span>{movie.title}&emsp;</span>
-                            <span>({year})</span>
-                        </h2>
-                        <p>User score: {Math.round(movie.vote_average)}%</p>
-                        <h3>OverView</h3>
-                        <p>{movie.overview}</p>
-                        <h3>Genres</h3>
-                        <ul>
-                            {movie.genres.map(genre => 
-                                <li key={genre.id}>{genre.name}</li>
-                            )}
-                        </ul>
+                        <div className={s.movieInformation}>
+                            <h2>
+                                <span>{movie.title}&emsp;</span>
+                                <span>({year})</span>
+                            </h2>
+                            <p>User score: {Math.round(movie.vote_average)}%</p>
+                            <h3>OverView</h3>
+                            <p>{movie.overview}</p>
+                            <h3>Genres</h3>
+                            <ul>
+                                {movie.genres.map(genre => 
+                                    <li key={genre.id}>{genre.name}</li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
                         <hr/>
                         <p>Additional information</p>
                         <ul>
@@ -79,6 +86,7 @@ function MovieInformationView () {
                             </li>
                         </ul>
                     </div>
+                </>
                 }
 
                 <Suspense fallback={<h1>Loading...</h1>}>
