@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import * as moviesApi from '../services/moviesApi';
 import useSearchQuery from '../hooks/useSearchQuery';
 
 function MoviesPageView () {
     const { url } = useRouteMatch();
+    const history = useHistory();
     const location = useLocation();
     const [query, setQuery] = useState('');
     const [searchQuery, setSearchQuery] = useSearchQuery(location.search);
@@ -26,6 +27,10 @@ function MoviesPageView () {
     const onSearchMovieFormSubmit = (e) => {
         e.preventDefault();
         setSearchQuery(query);
+        history.push({
+            pathname: url,
+            search: `?${query}`
+        });
         setQuery('');
     };
 
@@ -42,7 +47,7 @@ function MoviesPageView () {
                         movies.map(movie => <li key={movie.id}>
                             <Link to={{
                                 pathname: `${url}/${movie.id}`,
-                                state: {...location, search: searchQuery},
+                                state: {from: location},
                             }}>
                                 {movie.title ? movie.title : movie.name}
                             </Link>

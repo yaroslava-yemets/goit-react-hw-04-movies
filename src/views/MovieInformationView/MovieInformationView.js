@@ -36,7 +36,7 @@ function MovieInformationView () {
     };
 
     const onGoBack = () => {
-        history.push(pathToMovie ?? '/');
+        history.push(location?.state?.from ?? '/');
     };
 
     const year = getMovieYear();
